@@ -1,18 +1,37 @@
 import React, { useEffect, useState } from 'react';
 
 function Week2() {
+
     const [count, setCount] = useState(0);
     const [countN, setCountN] = useState(0);
     const [time, setTime] = useState("");
     const [fileContent, setFileContent] = useState("");
     const [clock, setClock] = useState(new Date());
     const [text, settext] = useState("");
+    const [task, settask] = useState("");
+    const [data , setdata] = useState([]);  
+    const [status, checkstatus] = useState(false); 
+
+ 
+    // create a todo in react with functionality -> Add, update, read, write and complete. very basic.  //  just think and form the logic.
+    // make it end to end.
+    // and also be a little quick.
+
+    const go = ()=>{
+        if(task.trim()){
+            setdata((prev)=>[...prev, task]) // maintain an array of elements.
+            settask("");
+        }
+    }
+    const check = ()=>{
+        checkstatus(true)
+    }
 
 
 
     const set = ()=>{
         settext(`Waited for ${time}s`); 
-
+        
     }
     const print = () => {
         setTimeout(() => {
@@ -20,6 +39,7 @@ function Week2() {
         }, time);
     }
 
+    
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -39,9 +59,6 @@ function Week2() {
             reader.readAsText(file);
         }
     };
-
-  
-
 
 
     const inc = () => {
@@ -95,7 +112,7 @@ function Week2() {
                 </div>
                 <div className='text-center'>
                     <h1 className='text-white text-4xl mt-20 text-yellow-400'>{countN}</h1>
-                    <button className='text-4xl text-white mt-10 border-2 border-blue-400 px-20 py-2 rounded-xl hover:scale-110' onClick={start}>Start</button>
+                    <button className='text-4xl text-white mt-10 border-2 border-blue-400 px-20 py-2 rounded-xl hover:scale-110' onClick={start}>StartA</button>
                 </div>
             </div>
             <h1 className='text-2xl text-center text-white mt-20'>3. Reading in a File</h1>
@@ -112,7 +129,7 @@ function Week2() {
                 <h1 className='mt-20 text-4xl text-white text-center'>Medium</h1>
                 <div className='flex flex-row justify-evenly mt-10'>
                     <h1 className='text-white text-center text-2xl mt-10'>1. Creating a Clock</h1>
-                    <h1 className='text-white text-center text-2xl mt-10'>2. Creating a Clock</h1>
+                    <h1 className='text-white text-center text-2xl mt-10'>2. Promisified SetTimeout.</h1>
                 </div>
                 <div className='flex flex-row justify-evenly'>
                     <div className='text-4xl text-center text-white border-2 border-blue-400 w-96 py-20 rounded-full mt-10'>
@@ -123,7 +140,6 @@ function Week2() {
                             type="text"
                             placeholder='Time:'
                             value={time}
-                            onChange={(e) => setTime(e.target.value)}
                             className='text-black border-2 border-black text-xl text-center rounded px-4 mt-10 py-3'
                         />
                         <button className='text-black text-2xl border-2 border-black py-2 px-4 bg-blue-400 rounded hover:scale-110' onClick={print}>Start</button>
@@ -144,6 +160,31 @@ function Week2() {
                         </div>
                     </div>
                 </div>
+                    <div className='bg-blue-400 h-2 mt-10 w-full'></div>
+                    <div className=''>
+                        <h1 className='text-center text-green-400 text-4xl mt-10'>Building a Todo</h1>
+                        <div className='flex flex-row justify-evenly mt-20'>
+                        <input type="text" value={task}  onChange={(e)=>settask(e.target.value)} placeholder='Tasks here: ' className='h-10 rounded-xl w-96 px-28 py-10'/>
+                        <button className='bg-blue-400 rounded-xl text-2xl h-12 px-20 hover:border-2 hover:scale-110' onClick={go}>Add</button>
+                        </div>
+                        <div className='mt-10 text-center items-center justify-center align-center'>
+                        {data.length > 0 && data.map((task, index) => (
+        <div key={index} className='flex text-center items-center mb-10 ml-20 ' >
+            <input type="checkbox" className='mr-5 h-20  cursor-pointer' onClick={check}/>
+            <div className='text-center text-2xl text-pink-400 hover:bg-blue-400 bg-white border-2 border-blue-400 rounded-xl py-2 px-4  cursor-pointer'>
+                {status && (
+                    <div className='text-underline'>
+                        {text}
+                    </div>
+                )}
+                {task}
+            </div>
+            <br />
+        </div>
+    ))}
+                            
+                        </div>
+                    </div>
                 <div className='h-96'></div>
             </div>
         </>
